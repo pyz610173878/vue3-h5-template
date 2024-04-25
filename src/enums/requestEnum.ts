@@ -8,6 +8,7 @@ export enum ContentTypeEnum {
   FORM_DATA = "multipart/form-data;charset=UTF-8",
   // json
   JSON = "application/json;charset=UTF-8"
+  // JSon1 = "application/json;"
 }
 
 /**

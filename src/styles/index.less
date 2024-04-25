@@ -1,5 +1,6 @@
 @import './variables.less';
-
+@import './font-size.less';
+@import './Form.less';
 body {
   height: 100%;
   -moz-osx-font-smoothing: grayscale;
@@ -8,6 +9,7 @@ body {
   font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
   color: var(--van-text-color);
   background-color: var(--color-background-2);
+  font-size: 14px;
 }
 
 html {
@@ -25,4 +27,31 @@ a:hover {
   cursor: pointer;
   color: inherit;
   text-decoration: none;
+}
+
+:root:root {
+  --van-grid-item-content-padding: 0px;
+  --van-padding-md: 1.5vw;
+  // --van-cell-horizontal-padding:0px;
+  --van-cell-vertical-padding:4px;
+  // --van-collapse-item-duration:
+  --van-cell-group-inset-padding: 0px;
+  --van-cell-group-inset-radius: 0px;
+  --van-divider-margin: 0px;
+  
+  --van-tab-active-text-color:background: var(--Sky-Dark, rgba(151, 156, 158, 1));
+  // --van-nav-bar-background: rgba(45, 128, 238, 1);
+  // todolist 背景颜色
+
+  // Navbar 背景颜色
+  
+
+  --van-skeleton-paragraph-background: #dbdbdb;
+
+  // 表单输入框宽度
+  --van-field-label-width: width: 25%;
+  // 外边距
+  // --van-field-label-margin-right:30px;
+
+  --van-grid-item-content-background:#FFFFFF;
 }

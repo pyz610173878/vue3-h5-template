@@ -1,42 +1,113 @@
-<script setup lang="ts" name="Tools">
-import { getListApi, getListApiError } from "@/api/mock";
-import { reactive } from "vue";
-import { showFailToast, showSuccessToast } from "vant";
-import "vant/es/toast/style";
-
-const showList: string[] = reactive([]);
-
-const handleSuccessReq = async () => {
-  const { list } = await getListApi();
-  showSuccessToast("请求成功");
-  showList.push(...list);
-};
-const handleErrorReq = () => {
-  getListApiError().then(
-    () => {},
-    err => {
-      console.log(err);
-      showFailToast("请求有误");
-    }
-  );
-};
-</script>
-
 <template>
-  <div class="tools-content pt-[20px] px-[12px]">
-    <div class="pl-[12px] border-l-[3px] border-[color:#41b883] mb-[12px]">
-      <h3 class="font-bold text-[18px] my-[4px]">Mock</h3>
-    </div>
-    <van-space>
-      <van-button type="success" @click="handleSuccessReq">成功请求</van-button>
-      <van-button type="danger" @click="handleErrorReq">失败请求</van-button>
-    </van-space>
-    <div
-      class="text-[14px] py-[2px] px-[10px] rounded-[4px] bg-[var(--color-block-background)] mt-[14px]"
-    >
-      <p class="my-[14px] leading-[24px]">
-        {{ showList }}
-      </p>
-    </div>
+  <div>
+    <van-collapse v-model="activeNames" :v-for="index in quality_Data">
+      <van-collapse-item
+        :border="false"
+        :title="quality_Data.planning"
+        name="质量策划"
+        class="sl-collapse--item"
+      >
+        <template #title>
+          <div class="">{{ quality_Data.planning }}</div>
+        </template>
+        <Todoview :tabbarDatas="TabbarDatas" />
+      </van-collapse-item>
+
+      <van-collapse-item :title="quality_Data.control" name="质量控制">
+        。<template #title>
+          <div class="">{{ quality_Data.control }}</div>
+        </template>
+      </van-collapse-item>
+      <van-collapse-item :title="quality_Data.active" name="质量活动">
+        <template #title>
+          <div class="">{{ quality_Data.active }}</div>
+        </template>
+      </van-collapse-item>
+      <van-collapse-item :title="quality_Data.check" name="质量检查">
+        <template #title>
+          <div class="">{{ quality_Data.check }}</div>
+        </template>
+      </van-collapse-item>
+      <van-collapse-item :title="quality_Data.statistics" name="质量统计">
+        <template #title>
+          <div class="">{{ quality_Data.statistics }}</div>
+        </template>
+      </van-collapse-item>
+      <van-collapse-item :title="quality_Data.equipment" name="特种设备">
+        <template #title>
+          <div class="">{{ quality_Data.equipment }}</div>
+        </template>
+      </van-collapse-item>
+    </van-collapse>
   </div>
 </template>
+<script setup lang="ts" name="tool">
+import { defineProps, defineEmits } from "vue";
+import { ref, reactive, onBeforeMount, onMounted, watch, computed } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import Todoview from "@/components/Todoview/index.vue";
+const quality_Data = reactive({
+  planning: "质量策划",
+  control: "质量控制",
+  active: "质量活动",
+  check: "质量检查",
+  statistics: "质量统计",
+  equipment: "特种设备管理"
+});
+const DataRef = ref();
+const route = useRoute();
+const activeNames = ref([""]);
+
+const TabbarDatas = reactive([
+  {
+    icon: `/src/assets/Photos/Qualityplannings.png`,
+    title: "质量规划",
+    to: {
+      name: "Planning"
+    }
+  },
+  {
+    icon: "/src/assets/Photos/QualityEye.png",
+    title: "质量计划",
+    to: {
+      name: "Control"
+    }
+  },
+  {
+    icon: "/src/assets/Photos/Qualityplanning.png",
+    title: "质量策划",
+    to: {
+      name: "Active"
+    }
+  }
+]);
+onBeforeMount(() => {
+  // 在这里执行挂载前的操作
+
+  // console.log(activeNames.value);
+  activeNames.value.unshift(route.query.name as string);
+});
+
+watch(DataRef, (newVal, oldVal) => {
+  // 在这里执行挂载前的操作
+});
+onMounted(() => {
+  // 在这里执行挂载后的操作
+});
+</script>
+
+<style scoped>
+.van-collapse
+  .van-collapse-item
+  .sl-collapse--item
+  .van-cell::v-deep.van-cell--clickable {
+  background-color: wheat;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+.van-collapse-item .van-cell--clickable ::v-deep.sl-collapse--item {
+  background-color: wheat;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+</style>
