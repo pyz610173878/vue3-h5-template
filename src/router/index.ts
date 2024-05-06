@@ -6,7 +6,7 @@ import {
 import routes from "./routes";
 import { useCachedViewStoreHook } from "@/store/modules/cachedView";
 import NProgress from "@/utils/progress";
-import setPageTitle from "@/utils/set-page-title";
+import setPageTitle from "@/utils/set-page-title"; //设置标题
 
 // 创建路由 router 实例化
 const router = createRouter({

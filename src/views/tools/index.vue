@@ -1,51 +1,77 @@
+<!-- 工作台 -->
 <template>
   <div>
-    <van-collapse v-model="activeNames" :v-for="index in quality_Data">
+    <van-collapse v-model="activeNames" ref="collapse">
       <van-collapse-item
         :border="false"
         :title="quality_Data.planning"
-        name="质量策划"
+        name="1"
         class="sl-collapse--item"
       >
         <template #title>
           <div class="">{{ quality_Data.planning }}</div>
         </template>
-        <Todoview :tabbarDatas="TabbarDatas" />
+        <Todoview :tabbarDatas="tabbarDatas" />
       </van-collapse-item>
 
-      <van-collapse-item :title="quality_Data.control" name="质量控制">
-        。<template #title>
+      <van-collapse-item :title="quality_Data.control" name="2">
+        <template #title>
           <div class="">{{ quality_Data.control }}</div>
         </template>
+        <!-- 质量控制 -->
+        <Todoview :tabbarDatas="TabbarControl" />
+        <div class="mb-4"></div>
+        <Todoview :tabbarDatas="TabbarControls" />
       </van-collapse-item>
-      <van-collapse-item :title="quality_Data.active" name="质量活动">
+      <!-- 质量活动 -->
+      <van-collapse-item :title="quality_Data.active" name="3">
         <template #title>
           <div class="">{{ quality_Data.active }}</div>
         </template>
+        <Todoview :tabbarDatas="quantityData" />
       </van-collapse-item>
-      <van-collapse-item :title="quality_Data.check" name="质量检查">
+
+      <!-- 质量检查 -->
+      <van-collapse-item :title="quality_Data.check" name="4">
         <template #title>
           <div class="">{{ quality_Data.check }}</div>
         </template>
       </van-collapse-item>
-      <van-collapse-item :title="quality_Data.statistics" name="质量统计">
+
+      <!-- 质量统计 -->
+      <van-collapse-item :title="quality_Data.statistics" name="5">
         <template #title>
           <div class="">{{ quality_Data.statistics }}</div>
         </template>
+        <Todoview :tabbarDatas="StatisticsData" />
       </van-collapse-item>
-      <van-collapse-item :title="quality_Data.equipment" name="特种设备">
+
+      <!-- 特种设备管理 -->
+      <van-collapse-item :title="quality_Data.equipment" name="6">
         <template #title>
           <div class="">{{ quality_Data.equipment }}</div>
         </template>
+        <Todoview :tabbarDatas="SpecialManagement" />
       </van-collapse-item>
     </van-collapse>
+
+    <div></div>
   </div>
 </template>
 <script setup lang="ts" name="tool">
 import { defineProps, defineEmits } from "vue";
 import { ref, reactive, onBeforeMount, onMounted, watch, computed } from "vue";
+import { GetTabbarData } from "@/hooks/useTabbarData";
 import { useRouter, useRoute } from "vue-router";
 import Todoview from "@/components/Todoview/index.vue";
+const {
+  tabbarDatas,
+  TabbarControl,
+  TabbarControls,
+  SpecialManagement,
+  StatisticsData,
+  quantityData
+} = GetTabbarData(); // 获取tabbar数据
 const quality_Data = reactive({
   planning: "质量策划",
   control: "质量控制",
@@ -56,36 +82,19 @@ const quality_Data = reactive({
 });
 const DataRef = ref();
 const route = useRoute();
-const activeNames = ref([""]);
+const activeNames = ref(["2"]);
+const collapse = ref(null); //折叠实例ref
+const openAll = () => {
+  collapse.value.toggleAll(true);
+};
 
-const TabbarDatas = reactive([
-  {
-    icon: `/src/assets/Photos/Qualityplannings.png`,
-    title: "质量规划",
-    to: {
-      name: "Planning"
-    }
-  },
-  {
-    icon: "/src/assets/Photos/QualityEye.png",
-    title: "质量计划",
-    to: {
-      name: "Control"
-    }
-  },
-  {
-    icon: "/src/assets/Photos/Qualityplanning.png",
-    title: "质量策划",
-    to: {
-      name: "Active"
-    }
-  }
-]);
 onBeforeMount(() => {
   // 在这里执行挂载前的操作
 
   // console.log(activeNames.value);
   activeNames.value.unshift(route.query.name as string);
+
+  // openAll()
 });
 
 watch(DataRef, (newVal, oldVal) => {

@@ -26,9 +26,7 @@ const handerStringInArray = (str: string) => {
 };
 
 const test1 = () => {
-  //   跳转页面是相同的。
-  //   只是每次加载的数据不一样。
-  router.push({ path: "/form" });
+  router.push({ path: "/approvalforms" });
 };
 </script>
 <template>
@@ -40,7 +38,7 @@ const test1 = () => {
     >
       <div class="card-content rounded-xl h-20 relative">
         <div
-          class="sl-positions--absolute notice"
+          class="--SL-rectangles-rotate notice"
           :class="{ [`sl-background--${item.color}`]: item.color }"
         >
           <p
@@ -56,7 +54,7 @@ const test1 = () => {
         </div>
         <div class="pl-8">
           <!-- 圆圈索引值 -->
-          <div class="absolute sl-icon--circle ">
+          <div class="absolute sl-icon--circle">
             <span class="relative sl-icon--text">{{ index }}</span>
           </div>
 
@@ -109,8 +107,6 @@ const test1 = () => {
 .sl-background--gray {
   background: #909399;
 }
-
-
 
 #app {
   background-color: rgba(246, 246, 246, 1);

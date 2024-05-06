@@ -37,12 +37,6 @@ const Notice_Datas = reactive({
 const emit = defineEmits(["response"]);
 const formRef = ref<FormInstance>();
 
-// const onSubmit = values => {
-//   const {examine_Data.value.card_Data} = GetTodoTask(value)
-//   console.log(examine_Data.value.card_Data,'测试测试');
-//   // 数据拿到了，但是数据如何传递到父组件呢？
-// };
-
 const onSubmit = async values => {
   const request = {
     dealUserNo: User_info.userNo,
@@ -51,13 +45,10 @@ const onSubmit = async values => {
 
   let result = await getPage(request);
 
-  
   // console.log("🚀 ~ onSubmit ~ r:", r)
-  
+
   emit("response", result.data);
 
-  // 我需要进行二次筛选。
-  // 如果仅仅只是搜索名字，那么已处理的任务也会被渲染出来。
 };
 
 onMounted(() => {

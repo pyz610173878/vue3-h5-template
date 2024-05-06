@@ -138,11 +138,22 @@
   text-align: center;
 }
 
-// 这两个只有行高之间的区别
-// 第二就是颜色的区别。
 
-// 我是定义两个不同的类名呢？还是定义一个字体类名，然后设置两个不同颜色的字体类型？
-//
+// 小号标题
+.--SL-caption-small {
+ @apply mt-3 text-sm font-normal text-black;
+}
 
 
-// 清楚浏览器默认样式
+// 大号数字
+
+.--Sl-number-large {
+  @apply text-2xl leading-7 text-center font-bold text-black;
+}
+
+
+// mini-size
+
+.--SL-text--mini {
+  @apply text-slate-950 font-normal text-xs text-center;
+}

@@ -1,5 +1,6 @@
 <template>
-  <div class="" id="homepage">
+  <div class="--SL-homepage--container">
+    <div class="mb-3"></div>
     <Echart></Echart>
     <div class="mb-6"></div>
     <div>
@@ -8,32 +9,44 @@
     <div class="sl-gird--container">
       <!-- 待办列表 -->
 
-      <div class="w-2/4 inline-block">
-        <ExamineDisplay :Examine_Data="Datass.Examine_Data" :column-num="2" />
+      <div class="--SL-card--container">
+        <ExamineDisplay :column-num="1" :to="'/approvalList?name=待办'">
+          <template #total> 0 </template>
+          <template #type> 待办 </template>
+        </ExamineDisplay>
       </div>
 
-      <div class="w-1/4 inline-block">
-        <ExamineDisplay
-          :Examine_Data="Datas.Examine_Data"
-          :column-num="1"
-          :to="'/tasklist'"
-        >
-        <template #total>
-          {{ Task_Total.TaskTotals }}
-        </template>
-      </ExamineDisplay>
+      <div class="--SL-card--container">
+        <ExamineDisplay :column-num="1" :to="'/approvalList?name=待阅'">
+          <template #total>
+            {{ 0 }}
+          </template>
+          <template #type> 待阅 </template>
+        </ExamineDisplay>
       </div>
 
-      <div class="w-1/4 inline-block">
-        <ExamineDisplay
-          :Examine_Data="Dataes.Examine_Data"
-          :column-num="1"
-          :to="'/myreminder'"
-        />
+      <div class="--SL-card--container">
+        <ExamineDisplay :column-num="1" :to="'/tasklist'">
+          <template #total>
+            {{ Task_Totals.TaskTotals }}
+          </template>
+
+          <template #type> 任务 </template>
+        </ExamineDisplay>
+      </div>
+
+      <div class="--SL-card--container">
+        <ExamineDisplay :column-num="1" :to="'/tasklist'">
+          <template #total>
+            {{ 0 }}
+          </template>
+
+          <template #type> 提醒 </template>
+        </ExamineDisplay>
       </div>
     </div>
 
-    <p class="mt-3 text-sm font-normal text-black">
+    <p class="--SL-caption-small">
       {{ HomePage.notice }}
     </p>
 
@@ -55,41 +68,20 @@ import {
   onBeforeMount,
   getCurrentInstance
 } from "vue";
-import { useRouter, useRoute } from "vue-router";
 import Todoview from "@/components/Todoview/index.vue";
-import { getCode } from "@/utils/validate";
-import { getUserCode } from "@/api/UserInfo";
-import { useCachedViewStore } from "@/store/modules/cachedView";
 import Notice from "@/components/Notice/index.vue";
 import { GetNoticeInfo } from "@/hooks/useNoticeinfo";
 import { GetTabbarData } from "@/hooks/useTabbarData";
 import { HanderTaskManage } from "@/hooks/useTaskManage";
-const { Data: Task_Total, TaskTotal, handerTaskTotals } = HanderTaskManage();
+const {
+  Data: Task_Totals,
+  TaskNoStartTotal,
+  handerTaskTotals
+} = HanderTaskManage();
 const { Data, handlerGetNoticeList } = GetNoticeInfo(); // 获取通知公告数据
 const { tabbarDatas } = GetTabbarData(); // 获取tabbar数据
 
 const loading = ref(true);
-
-const { User_info } = useCachedViewStore();
-//
-
-//
-const Datass = ref({
-  Examine_Data: [
-    { total: 5, type: ["待办", "待阅", "任务", "提醒"], name: "待办" },
-    { total: 6, type: ["待办", "待阅", "任务", "提醒"], name: "待阅" }
-  ]
-});
-//
-const Datas = ref({
-  Examine_Data: [
-    { total: 22, type: ["任务"], name: "任务管理" }
-  ]
-});
-//
-const Dataes = ref({
-  Examine_Data: [{ total: 10, type: ["提醒"], name: "提醒" }]
-});
 
 const HomePage = reactive({
   notice: "通知公告"
@@ -100,33 +92,12 @@ setTimeout(() => {
   // false  不进行显示
 }, 1500);
 
-
 onBeforeMount(() => {
-  //   // 在这里执行挂载前的操作
-  const store = useCachedViewStore();
-  const { Data } = GetNoticeInfo();
-  const totalNumber = ref(3);
-  handlerGetNoticeList(totalNumber);
-  handerTaskTotals(TaskTotal)
-  
-  
-  // const codes = window.location.href;
-  // store.Code = getCode(codes);
-
-  // 调用函数赋值
+  handerTaskTotals(TaskNoStartTotal);
+  handlerGetNoticeList();
 });
 
-onMounted(() => {
-  // console.log(Task_Total.value.TaskTotals,'ccccc');
-  
-  // console.log(Task_Total.value.TaskTotals,22222222222222222222222222);
-  // Dataes.value.Examine_Data["total"] = Task_Total.value.TaskTotals
-  // const { Data } = GetNoticeInfo();
-  // handlerGetNoticeList();
-  // const result = getCode(code);
-  // const store = useCachedViewStore();
-  // store.Token = result;
-});
+onMounted(() => {});
 </script>
 
 <style scoped>
@@ -137,13 +108,5 @@ onMounted(() => {
 
 .van-field ::v-deep.sl-field--content .van-field__left-icon {
   margin-left: 10px;
-}
-
-.w-87 {
-  width: 87px;
-}
-
-#homepage {
-  overflow-x: hidden;
 }
 </style>

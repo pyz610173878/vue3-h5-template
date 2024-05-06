@@ -1,8 +1,9 @@
 <template>
-  <div class="px-4">
+  <div >
     <NavBar title="质量检查" />
     <div class="mb-4"></div>
 
+    <div class="px-3">
     <van-collapse v-model="activeNames">
       <van-collapse-item title="基本信息" name="1">
         <van-form ref="form1">
@@ -82,7 +83,7 @@
               :required="true"
               name="rectificaUserName"
               label="整改人：&nbsp;&nbsp;&nbsp;&nbsp;"
-              readonly
+              :readonly="Data.rectificaStatus == 1 ? true : false"
             />
 
             <van-field
@@ -92,27 +93,26 @@
               v-model="Data.rectificaImagesId"
             >
               <!-- 上传图片 -->
-              <template #input >
-                <div class="sl-uploader" >
+              <template #input>
+                <div class="sl-uploader">
                   <van-uploader
-                    v-if="query.status != 2"
+                    v-if="Data.rectificaStatus == 0 ? true : false"
                     preview-size="60"
                     :after-read="UpdataImage"
                     v-model="fileList"
                     multiple
                   />
                   <div class="sl-image" else>
-                  <van-image
-                    width="60"
-                    height="50"
-                    v-for="file in ImageArrys"
-                    :key="file.id"
-                    :src="file.url"
-                    :alt="file.name"
-                  />
+                    <van-image
+                      width="60"
+                      height="50"
+                      v-for="file in ImageArrys"
+                      :key="file.id"
+                      :src="file.url"
+                      :alt="file.name"
+                    />
+                  </div>
                 </div>
-                </div>
-                
               </template>
             </van-field>
             <van-field
@@ -123,8 +123,9 @@
             >
               <template #input>
                 <van-radio-group
-                  v-model="Data.rectificaStatus"
+                  v-model="Datas.rectificaStatus"
                   direction="horizontal"
+                  :disabled="Data.rectificaStatus == 1 ? true : false"
                 >
                   <van-radio :name="1">已整改</van-radio>
                   <van-radio :name="0">未整改</van-radio>
@@ -136,20 +137,22 @@
               :required="true"
               name="rectificaDesc"
               label="整改说明："
-              :readonly="IsReadonly"
+              :readonly="Data.rectificaStatus == 1 ? true : false"
               :rules="[{ required: true, message: '请填写整改说明' }]"
             />
-            
+
             <van-field
               v-model="Data.acceptUserName"
               name="验收人"
-              disabled
+              v-if="Data.rectificaStatus == 0 ? false : true"
               label="&nbsp;&nbsp;验收人：&nbsp;&nbsp;&nbsp;"
               :readonly="IsReadonly"
               :rules="[{ pattern, message: '请填写正确的验收人姓名' }]"
             />
+
             <van-field
               :required="true"
+              v-if="Data.rectificaStatus == 0 ? false : true"
               is-link
               v-model="Data.acceptDate"
               name="验收时间"
@@ -164,19 +167,24 @@
               :showPicker="showPicker"
               @confirm="onConfirm"
             />
-            <van-field name="验收状态" label="&nbsp;&nbsp;验收状态：">
+            <van-field
+              name="验收状态"
+              v-if="Data.rectificaStatus == 0 ? false : true"
+              label="&nbsp;&nbsp;验收状态："
+            >
               <template #input>
                 <van-radio-group
                   v-model="Data.acceptStatus"
                   direction="horizontal"
                 >
-                  <van-radio :name="1">是</van-radio>
-                  <van-radio :name="0">否</van-radio>
+                  <van-radio :name="1">已验收</van-radio>
+                  <van-radio :name="0">未验收</van-radio>
                 </van-radio-group>
               </template>
             </van-field>
             <van-field
               v-model="Data.acceptDesc"
+              v-if="Data.rectificaStatus == 0 ? false : true"
               name="验收说明"
               label="&nbsp;&nbsp;验收说明："
               :readonly="IsReadonly"
@@ -184,15 +192,17 @@
             />
           </van-cell-group>
           <div class="sl-button">
-            <van-button type="primary" size="normal">取消</van-button>
+            <van-button type="primary" size="normal" @click="router.back()"
+              >取消</van-button
+            >
             <van-button type="primary" size="normal" native-type="submit"
               >提交</van-button
             >
           </div>
-          
         </van-form>
       </van-collapse-item>
     </van-collapse>
+  </div>
   </div>
 </template>
 
@@ -202,7 +212,6 @@ import { ref, reactive, onBeforeMount, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useCachedViewStore } from "@/store/modules/cachedView";
 import { HandlerFormData } from "./Formutils";
-import { getDate } from "@/utils/common";
 import DataTime from "@/components/DataTime/index.vue";
 import {
   getcommUploadFile,
@@ -213,26 +222,25 @@ import {
 } from "@/api/BUSI_TASK_INFO/index";
 import {
   showSuccessToast,
-  closeToast,
-  showFailToast,
   showLoadingToast
 } from "vant";
 const route = useRoute(); //当前页面的路由信息比如 name path query等
-const { query } = route;
 const router = useRouter();
-const { User_info } = useCachedViewStore();
+const { query } = route;
+const querys: any = query;
 const { Data } = HandlerFormData();
 
 // 伸缩栏
 const activeNames = ref([]);
 // 质量任务唯一ID
-const busiId = ref("");
+const busiId: any = ref("");
 // 图片列表
 const fileList = ref([]);
 
 // 图片照片
 const ImageArry = ref([]);
 const ImageArrys = ref([]);
+
 // 表单实例ref
 const form1 = ref("");
 
@@ -240,6 +248,15 @@ const pattern = /^[\u4e00-\u9fa5]{2,8}$/;
 
 // 开始时间
 const startTime = ref(""); //值定义
+
+
+// 整改状态
+
+const Datas = reactive({
+  rectificaStatus:1
+})
+
+
 
 /**
  * 上传质量问题图片
@@ -259,7 +276,7 @@ const UpdataImage = async files => {
       Form3.append("files", item.file);
     });
   }
-  let res = "";
+  let res: any = "";
   if (fileList.value.length != 0) {
     res = await uploadFile(Form3);
     let arrs = [];
@@ -271,7 +288,12 @@ const UpdataImage = async files => {
 const onFailed = errorInfo => {
   showSuccessToast("请输入对应信息");
 };
-// 验收时间函数
+
+
+
+/**
+ * 验收时间函数
+ */
 
 const showPicker = ref(false);
 const onConfirm = selectedValues => {
@@ -281,16 +303,16 @@ const onConfirm = selectedValues => {
 
 const IsReadonly = ref(false);
 
+
+/**
+ * 获取照片字符串
+ * @param 
+ */
 const handlerGetImage = async (data?: any) => {
   try {
-    
-      const response = await ImgInit(data);
-    console.log(Data.value,77777777777777777);
-    
-      ImageArry.value = response;
-      // ImageArrys.value = response;
+    const response = await ImgInit(data);
 
-    
+    ImageArry.value = response;
   } catch (error) {
     return false;
   }
@@ -298,25 +320,26 @@ const handlerGetImage = async (data?: any) => {
 
 const handlerGetImages = async (data?: any) => {
   try {
-    
-      const response = await ImgInit(data);
-    
-      ImageArrys.value = response;
-      // ImageArrys.value = response;
+    const response = await ImgInit(data);
 
-    
+    ImageArrys.value = response;
+    // ImageArrys.value = response;
   } catch (error) {
     return false;
   }
 };
 
 
+/**
+ * 获取详情数据
+ * @param data 详情数据id
+ */
 const handlergetProblemDetail = async (data: string) => {
   try {
     const response = await getProblemDetail(data);
     Data.value = response.data;
     handlerGetImage(Data.value.issueImagesId);
-    handlerGetImages(Data.value.rectificaImagesId)
+    handlerGetImages(Data.value.rectificaImagesId);
   } catch (error) {
     return false;
   }
@@ -329,7 +352,7 @@ const ImgInit = async (fileN: any) => {
   const getImgBolb = async arr => {
     let list = [];
     if (arr.length == 0) return list;
-    const res = await getImg({ fileId: arr[0] });
+    const res: any = await getImg({ fileId: arr[0] });
     const url = URL.createObjectURL(res);
 
     list.push({
@@ -346,9 +369,12 @@ const ImgInit = async (fileN: any) => {
   return files;
 };
 
+
+/* 提交表单函数
+*/
 const onSubmit = async values => {
-  Data.value.status = 2;
-  const res = await putProblem(Data.value);
+  Data.value.rectificaStatus = Datas.rectificaStatus
+  const res: any = await putProblem(Data.value);
   console.log("整改状态:::", Data.value.rectificaStatus);
   console.log("验收状态:::", Data.value.acceptStatus);
 
@@ -361,20 +387,13 @@ const onSubmit = async values => {
   }
 };
 
-const handerputProblem = async (data?: any) => {
-  try {
-    const response = await putProblem(data);
-    // 提交成功
-    // 重置表单
-    // 跳转到 tasklist页面
-  } catch (error) {
-    return false;
-  }
-};
 
 onBeforeMount(() => {
   // 在这里执行挂载前的操作
-  busiId.value = query.busiId;
+  busiId.value = querys.busiId;
+  console.log(querys.status);
+console.log(busiId.value,6666666666666666);
+
   handlergetProblemDetail(busiId.value);
 });
 

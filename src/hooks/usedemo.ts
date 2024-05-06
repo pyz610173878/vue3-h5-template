@@ -27,7 +27,7 @@ const response = {
 
 /** 自定义hook */
 export const categoryHook = () => {
-  const infoData: InfoData = ref({
+  const infoData = ref({
     category_options: []
   });
   // 还是要在熟悉一下 ref. reactive的区别

@@ -1,5 +1,6 @@
 import { ref, reactive } from "vue";
-import { number } from "echarts";
+import { store } from "@/store/index";
+import { useCachedViewStore } from "@/store/modules/cachedView";
 import {
   GetTodoTask,
   GetDoneTask,

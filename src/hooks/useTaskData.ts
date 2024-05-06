@@ -3,7 +3,7 @@ import { number } from "echarts";
 import {
   GetTodoTask,
   GetDoneTask,
-  GetCompletedList,
+  // GetCompletedList,
   GetReadingList,
   GetReadoneList,
   GetApplicationList

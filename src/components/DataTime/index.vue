@@ -143,50 +143,50 @@ function getcolumns() {
   day.splice(0, 1);
   data.columns.push(day); //生成日列
 
-//   let hour = []; //创建小时数组
-//   hour = Object.keys(Array.apply(null, { length: 24 })).map(function (item) {
-//     if (+item + 1 <= 10) {
-//       return { text: "0" + item, value: "0" + item };
-//     } else if (+item + 1 == 11) {
-//       return { text: +item, value: +item };
-//     } else {
-//       return {
-//         text: (+item + 0).toString(),
-//         value: (+item + 0).toString()
-//       };
-//     }
-//   });
-//   data.columns.push(hour); //生成小时列
+  //   let hour = []; //创建小时数组
+  //   hour = Object.keys(Array.apply(null, { length: 24 })).map(function (item) {
+  //     if (+item + 1 <= 10) {
+  //       return { text: "0" + item, value: "0" + item };
+  //     } else if (+item + 1 == 11) {
+  //       return { text: +item, value: +item };
+  //     } else {
+  //       return {
+  //         text: (+item + 0).toString(),
+  //         value: (+item + 0).toString()
+  //       };
+  //     }
+  //   });
+  //   data.columns.push(hour); //生成小时列
 
-//   let mi = []; //创建分钟数组
-//   mi = Object.keys(Array.apply(null, { length: 60 })).map(function (item) {
-//     if (+item + 1 <= 10) {
-//       return { text: "0" + item, value: "0" + item };
-//     } else if (+item + 1 == 11) {
-//       return { text: +item, value: +item };
-//     } else {
-//       return {
-//         text: (+item + 0).toString(),
-//         value: (+item + 0).toString()
-//       };
-//     }
-//   });
-//   data.columns.push(mi); //生成分钟列
+  //   let mi = []; //创建分钟数组
+  //   mi = Object.keys(Array.apply(null, { length: 60 })).map(function (item) {
+  //     if (+item + 1 <= 10) {
+  //       return { text: "0" + item, value: "0" + item };
+  //     } else if (+item + 1 == 11) {
+  //       return { text: +item, value: +item };
+  //     } else {
+  //       return {
+  //         text: (+item + 0).toString(),
+  //         value: (+item + 0).toString()
+  //       };
+  //     }
+  //   });
+  //   data.columns.push(mi); //生成分钟列
 
-//   let ss = []; //创建秒数数组
-//   ss = Object.keys(Array.apply(null, { length: 60 })).map(function (item) {
-//     if (+item + 1 <= 10) {
-//       return { text: "0" + item, value: "0" + item };
-//     } else if (+item + 1 == 11) {
-//       return { text: +item, value: +item };
-//     } else {
-//       return {
-//         text: (+item + 0).toString(),
-//         value: (+item + 0).toString()
-//       };
-//     }
-//   });
-//   data.columns.push(ss); //生成秒钟列
+  //   let ss = []; //创建秒数数组
+  //   ss = Object.keys(Array.apply(null, { length: 60 })).map(function (item) {
+  //     if (+item + 1 <= 10) {
+  //       return { text: "0" + item, value: "0" + item };
+  //     } else if (+item + 1 == 11) {
+  //       return { text: +item, value: +item };
+  //     } else {
+  //       return {
+  //         text: (+item + 0).toString(),
+  //         value: (+item + 0).toString()
+  //       };
+  //     }
+  //   });
+  //   data.columns.push(ss); //生成秒钟列
 }
 
 function getCountDays(year, month) {

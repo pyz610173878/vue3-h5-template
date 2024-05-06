@@ -17,6 +17,7 @@ const DataRef = ref();
 
 const props = defineProps<{
   Examine_Data: ExamineProps[];
+  CustomGrid_Data: any;
 }>();
 
 onBeforeMount(() => {});
@@ -33,6 +34,7 @@ onMounted(() => {
 <template>
   <div>
     <!-- <div @click="update">parent bound v-model is: {{ model }}</div> -->
+
     <van-grid :border="false" v-bind="$attrs">
       <van-grid-item
         :to="'/approvalList?name=' + item.name"
@@ -41,7 +43,6 @@ onMounted(() => {
         :key="index"
         v-bind="$attrs"
       >
-        <!-- 现在笨一点的办法就是在写两个组件 -->
         <div>
           <p
             class="text-center text-center text-2xl leading-7 text-center font-bold text-black"

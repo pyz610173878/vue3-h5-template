@@ -33,17 +33,11 @@ const handleErrorReq = () => {
 const onClickLeft = () => history.back();
 
 // 下一步呢？
-const active = ref("");
+const active: any = ref("");
 const task = ref(false);
 
 const test = ref("审批管理");
 
-const form_data = reactive({
-  flowCode: "123",
-  flowCurrTaskId: "",
-  flowId: "",
-  flowInstanceNo: ""
-});
 
 onMounted(() => {
   // 挂载之前的操作
@@ -54,10 +48,7 @@ onMounted(() => {
 onBeforeMount(() => {
   const { examine_Data } = GetInfoCard();
 
-  const request = {
-    pageSize: 2
-  };
-  handlerGetTodoList(request);
+  // handlerGetTodoList(request);
   // handlergetDoneTask();
   // 把数据全部拿过来
 });

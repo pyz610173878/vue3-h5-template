@@ -1,5 +1,5 @@
 {
-  "name": "技术管理系统移动端",
+  "name": "",
   "homepage": "https://yulimchen.github.io/vue3-h5-template/",
   "version": "0.5.8",
   "license": "MIT",
@@ -15,7 +15,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "run-p type-check build-only",
+    "build":"run-p type-check build-only",
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit",

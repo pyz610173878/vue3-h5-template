@@ -12,7 +12,7 @@ type ListResult = {
  * @param data
  * @returns
  */
-export function GetTodoTask(data?: object): Promise<ListResult> {
+export function GetTodoTask(data?: any): Promise<ListResult> {
   return http.request({
     url: "/hpcc-qms/v1_0/module/workflow-v1/todoTask",
     method: "post",

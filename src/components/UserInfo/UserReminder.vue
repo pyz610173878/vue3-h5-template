@@ -1,3 +1,4 @@
+<!-- 我的提醒 -->
 <template>
   <div class="h-1/2 py-4 bg-white flex justify-between items-center">
     <div class="flex">

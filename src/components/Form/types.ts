@@ -18,7 +18,7 @@ export interface TaskInfo_Props {
   acceptUserName: string; //验收人
   acceptStatus: string; //验收状态
   acceptDesc: string; //验收说明
-  status:number,
+  status: number;
 }
 
 // 流程类型这些都是固定的。
@@ -94,4 +94,3 @@ export interface Datum {
   violationed: number;
 }
 
-// 利用 python 编写一个脚本来解决这个重复性问题。

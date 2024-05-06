@@ -59,6 +59,7 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       host: true,
+      port: 80,
       // 仅在 proxy 中配置的代理前缀， mock-dev-server 才会拦截并 mock
       // doc: https://github.com/pengzhanbo/vite-plugin-mock-dev-server
       proxy: {

@@ -21,8 +21,8 @@ const props = defineProps<{
 
 // 这个函数通用性不高。假设你要跳转 十几个页面呢？
 // 难道你写 十几个if else？还要进行进行抽离。
-const test1 = (item, index) => {
-  if (item.type.length > 3) {
+const ToApprovalist = (item, index) => {
+  if (item.type.length >= 3) {
     return "/approvalList?name=";
   } else {
     return "/tasklist?name=";
@@ -43,62 +43,20 @@ onMounted(() => {
   <div>
     <!-- <div @click="update">parent bound v-model is: {{ model }}</div> -->
     <van-grid :border="false" v-bind="$attrs">
-      <van-grid-item
-        text="文字"
-        v-for="(item, index) in props.Examine_Data"
+      <van-grid-item v-bind="$attrs">
+        <!-- v-for="(item, index) in props.Examine_Data"
         :key="index"
-        :to="test1(item, index) + item.type[index]"
-        v-bind="$attrs"
-      >
-        <!-- v-bind=$attrs 必须要放最后，否则无法继承第三方组件的属性与方法 -->
-        <!-- 路由地址不应该写死，先放着吧。已经浪费太久了。  -->
+        :to="test1(item, index) + item.type[index]" -->
         <div class="">
-          <p
-            class="text-center text-center text-2xl leading-7 text-center font-bold text-black"
-          >
-          <slot name="total">
-            {{ item.total }}
-          </slot>
-            
+          <p class="--Sl-number-large">
+            <slot name="total"> </slot>
           </p>
           <slot name="type">
-            <p :type="item.type[index]">{{ item.type[index] }} </p>
+            <p></p>
           </slot>
-          
         </div>
       </van-grid-item>
-      <!-- <van-grid-item to="/approvalList">
-        <div>
-          <p
-            class="text-center text-2xl leading-7 text-center font-bold text-black"
-          >
-            3
-          </p>
-          <p>待阅</p>
-        </div>
-      </van-grid-item>
-      <van-grid-item>
-        <div>
-          <p
-            class="text-center text-center text-2xl leading-7 text-center font-bold text-black"
-          >
-            3
-          </p>
-          <p>任务</p>
-        </div>
-      </van-grid-item>
-      <van-grid-item>
-        <div>
-          <p
-            class="text-center text-center text-2xl leading-7 text-center font-bold text-black"
-          >
-            3
-          </p>
-          <p>提醒</p>
-        </div>
-      </van-grid-item> -->
     </van-grid>
   </div>
 </template>
 
-<style scoped></style>

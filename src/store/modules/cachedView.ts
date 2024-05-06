@@ -1,11 +1,3 @@
-/*
- * @Author: hacker 610173878@qq.com
- * @Date: 2024-03-22 15:52:02
- * @LastEditors: hacker 610173878@qq.com
- * @LastEditTime: 2024-04-12 09:38:44
- * @FilePath: \H5-\src\store\modules\cachedView.ts
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
 import { defineStore } from "pinia";
 import { store } from "@/store";
 import type { toRouteType } from "@/router";
@@ -30,9 +22,26 @@ export const useCachedViewStore = defineStore({
       qr_code: "" as string,
       biz_mail: "" as string,
       address: "" as string,
-      userNo: "" as string,
-      qywxToken: "D116E2FDE8B3BE36076B1317C1CDAF6D" as string
-    }
+      userNo: "3289" as string,
+      qywxToken: "" as string
+    },
+    Wx_Info: {
+      corpid: "",
+      corpsecret: "",
+      signature: "",
+      timestamp: ""
+    },
+    Task_Total: {
+      TaskNoStart: number,
+      TaskProcessing: number,
+      TaskProcessed: number
+    },
+    AgentId: 1000011,
+
+    access_token: "" as string,
+    jsapi_ticket:
+      "kgt8ON7yVITDhtdwci0qefeUsuSneTWbWauUftXAStnRymeJH1HvOQRFC7Cf6WzYpBOxc6JZu1LJscV0xFqB0Q",
+    jsapi_ticketApply: "yrXDQoKwRJCReg5h8uVe8A=="
   }),
   actions: {
     addCachedView(view: toRouteType) {

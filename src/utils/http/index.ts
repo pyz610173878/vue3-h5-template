@@ -25,10 +25,15 @@ const axiosBase = useCachedViewStore(store);
 
 // 默认 axios 实例请求配置
 const configDefault = {
+  // headers: {
+  //   "Content-Type": ContentTypeEnum.FORM_URLENCODED
+  // },
   timeout: 0,
   baseURL: import.meta.env.VITE_BASE_API,
   data: {}
 };
+
+console.log(configDefault.baseURL);
 
 class Http {
   // 当前实例
@@ -44,6 +49,7 @@ class Http {
         // 发送请求前，可在此携带 token
         if (axiosBase.User_info.qywxToken) {
           config.headers["wx-user-Token"] = axiosBase.User_info.qywxToken;
+          console.log("config", config.headers);
         }
         return config;
       },
@@ -63,9 +69,7 @@ class Http {
         // const { code, message, result } = response.data;
         const { success, errCode, errMessage } = response.data;
         // 判断请求是否成功
-        if (success || response.data.size) {
-          console.log(response.data, 222222222);
-
+        if (success) {
           return response.data;
         }
         // const isSuccess =

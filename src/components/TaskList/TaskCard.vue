@@ -36,11 +36,14 @@ const handerTaskType = status => {
 };
 
 const test1 = (busiId, status) => {
-  //   跳转页面是相同的。
-  //   只是每次加载的数据不一样。
-  console.log("6666666666666666");
-
-  router.push({ path: `/form`, query: { busiId: busiId, status: status } });
+  if (status == 2) {
+    router.push({
+      path: `/processed`,
+      query: { busiId: busiId, status: status }
+    });
+  } else {
+    router.push({ path: `/form`, query: { busiId: busiId, status: status } });
+  }
 };
 </script>
 <template>
@@ -54,10 +57,8 @@ const test1 = (busiId, status) => {
         class="card-content rounded-xl h-20 relative"
         @click="test1(item.busiId, item.status)"
       >
-        <div
-          class="sl-positions--absolute notice"
-          :class="{ [`sl-background--${item.color}`]: item.color }"
-        >
+        <div class="sl-positions--absolute notice">
+          <!-- :class="{ [`sl-background--${item.color}`]: item.color }" -->
           <p
             class="sl-examine--text text-white"
             :class="handerTaskColor(item.status)"
@@ -66,10 +67,9 @@ const test1 = (busiId, status) => {
           </p>
         </div>
         <div class="pl-8">
-          <div class="absolute sl-icon--circle ">
+          <div class="absolute sl-icon--circle">
             <span class="relative sl-icon--text">{{ index }}</span>
           </div>
-      
 
           <!-- 任务名称 -->
           <div class="mb-1">

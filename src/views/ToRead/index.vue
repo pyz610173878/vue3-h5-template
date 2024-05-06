@@ -10,7 +10,10 @@
   </div>
 </template>
 <script setup lang="ts" name="ToRead">
+import { ref } from "vue";
 // const onClickLeft = () => history.back();
+
+const active = ref("");
 </script>
 
 <style scoped></style>

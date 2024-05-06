@@ -1,3 +1,4 @@
+<!-- 我的信息 -->
 <template>
   <div class="flex justify-between items-center h-1/2 py-4 bg-white">
     <div class="flex">

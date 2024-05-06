@@ -16,77 +16,66 @@ import Vnode from "@/components/Vnode.js";
 import Vnodes from "@/components/Vnode/index.vue";
 import UserContainer from "@/components/UserInfo/index.vue";
 import Rate from "@/components/demo/index.vue";
-import MyModal from "./mymodal.vue";
 import Abutton from "@/components/Button/BasicButton.vue";
-import * as ww from '@wecom/jssdk'
+import * as ww from "@wecom/jssdk";
+import { getWxaccess_tokens } from "@/api/WX/index";
 const UserRef = ref(null);
-
+import { HanderTaskManage } from "@/hooks/useTaskManage";
 const { List_Data, Examine_Data, handlerGetExamine, handlerGetTaskData } =
   GetExamine();
-  // alert(ww)
 
-  console.log(ww);
-  
+const {
+  Data: Task_Total,
+  TaskNoStart,
+  TaskProcessing,
+  TaskProcessed,
+  handerTaskNoStart,
+  handerTaskProcessing,
+  handerTaskProcessed
+} = HanderTaskManage();
+
+// const JSAPI_TICKET =
+//   "kgt8ON7yVITDhtdwci0qefeUsuSneTWbWauUftXAStn8jTmccsMzBXZvYIYhiCIV-J6nYkN29LYv7OPV5Fes3A";
+// kgt8ON7yVITDhtdwci0qefeUsuSneTWbWauUftXAStn8jTmccsMzBXZvYIYhiCIV-J6nYkN29LYv7OPV5Fes3A
+// x6ar/0JsDAh2mley+ROlZg==
+// ww.register({
+//   corpId: "ww85ce872989bdb5cb",
+//   jsApiList: ["chooseImage"],
+//   getConfigSignature() {
+//     console.log(123);
+//     return ww.getSignature(JSAPI_TICKET);
+//   }
+// });
+
+// 调用 register 后可以立刻调用其他 JS 接口
+// ww.chooseImage({
+//   count: 1,
+//   sizeType: ["original"],
+//   sourceType: ["album", "camera"],
+//   defaultCameraMode: "batch",
+//   isSaveToAlbum: true
+// });
+
 const test = ref("审批管理");
 const number = ref(5);
 const store = useCachedViewStore();
 
 const Task_management = ref("任务管理");
 
-const msg = ref("hello");
-//   groceryList = ref([
-//     { id: 1, text: "代办" },
-//     { id: 2, text: "待阅" },
-//     { id: 3, text: "已办" },
-//     { id: 4, text: "已阅" },
-//     { id: 5, text: "申请" }
-//   ]),
-//   test1 = ref("任务管理"),
-const Task_Type = ref(["未开始", "处理中", "已处理"]);
-const User_Data = reactive({
-  user: [
-    {
-      errcode: 0 as number,
-      userid: "" as string,
-      mobile: "" as string,
-      gender: "" as string,
-      email: "" as string,
-      avatar: "" as string,
-      qr_code: "" as string,
-      biz_mail: "" as string,
-      address: "" as string,
-      userNo: "" as string,
-      qywxToken: "" as string
-    }
+const Datass = ref({
+  Examine_Data: [
+    { total: 0, type: ["未完成", "处理中", "已处理"], name: "未完成" },
+    { total: 0, type: ["未完成", "处理中", "已处理"], name: "处理中" },
+    { total: 0, type: ["未完成", "处理中", "已处理"], name: "已处理" }
   ]
 });
-
-//   groceryList3 = ref([
-//     { id: 2, text: "我的提醒" },
-//     { id: 2, text: "我的消息" }
-//   ],
-// )
-// const Data = ref({
-//   Examine_Data: [
-//     { total: 5, type: ["待办", "待阅", "已办", "已阅"], name: "待办" },
-//     { total: 6, type: ["待办", "待阅", "已办", "已阅"], name: "待阅" },
-//     { total: 7, type: ["待办", "待阅", "已办", "已阅"], name: "已办" },
-//     { total: 10, type: ["待办", "待阅", "已办", "已阅"], name: "已阅" }
-//   ]
-// });
-
 const test2 = () => {
-  console.log("是否执行！！！！！！！！！！！！！");
-
+  console.log("是否执行！");
   UserRef.value.testfuction();
 };
 
 onMounted(() => {
-  // const { Data } = GetNoticeInfo();
-  // handlerGetNoticeList();
-  // const result = getCode(code);
-  // const store = useCachedViewStore();
-  // store.Token = result;
+  // List_Data.value.Task_Datas = response1.Task_Datas
 });
 
 onBeforeMount(() => {
@@ -94,7 +83,6 @@ onBeforeMount(() => {
   handlerGetExamine();
   handlerGetTaskData();
   const { User_info } = store;
-  console.log("🚀 ~ onBeforeMount ~ User_info:", User_info);
 });
 
 const test1 = ref("任务管理");
@@ -121,10 +109,6 @@ const test1 = ref("任务管理");
           </p>
         </div>
       </div>
-
-      <div>
-        <van-icon name="arrow" class="" />
-      </div>
     </div>
   </div>
   <!-- 审批管理 -->
@@ -146,81 +130,13 @@ const test1 = ref("任务管理");
 
     <ExamineDisplay
       v-model="number"
-      :Examine_Data="List_Data.Task_Datas"
+      :Examine_Data="Datass.Examine_Data"
       :column-num="3"
-    />
+      :to="`/tasklist?name=`"
+    >
+    </ExamineDisplay>
   </div>
   <UserContainer ref="UserRef"> </UserContainer>
-
-  <!-- 我的提醒 -->
-  <!-- <div class="">
-    <div
-      class="bg-white px-4 p-4 sl-user-car border-solid border--2 rounded-lg"
-    >
-    <div class="mb-2 w-full bg-white flex justify-between items-center">
-      <div class="flex  ">
-        <img src="" alt="" class="w-5 h-5 mr-2">
-    
-    <p>  我的提醒</p>
-      </div>
-      <div>
-         <span>22</span>
-         <van-icon name="arrow" class="" />
-      </div>
-  
-    </div>
-    <van-divider :style="{ color: '#f5f5f5', borderColor: '#f5f5f5'}"/>
-   
-
-    <div class="mt-3 w-full bg-white flex justify-between items-center">
-      <div class="flex">
-        <img src="" alt="" class="w-5 h-5 mr-2">
-    
-    <p>  我的提醒</p>
-      </div>
-      <div>
-         <span>22</span>
-         <van-icon name="arrow" class="" />
-      </div>
-  
-    </div>
-    
-  </div>
-  </div> -->
-
-  <!-- 尝试封装成一个组件。提供插槽
-  图标
-  文字
-  箭头 可自定义
-  -->
-  <!-- <div class="px-4 bg-white w-full h-28 rounded-lg">
-    <div class="h-1/2 py-4 bg-white flex justify-between items-center">
-      <div class="flex">
-        <img src="" alt="" class="w-5 h-5 mr-2" />
-
-        <p>我的提醒</p>
-      </div>
-      <div>
-        <span>22</span>
-        <van-icon name="arrow" class="" />
-      </div>
-      
-    </div>
-
-    
-    
-    <div class="h-1/2 py-4 bg-white flex justify-between items-center">
-      <div class="flex">
-        <img src="" alt="" class="w-5 h-5 mr-2" />
-
-        <p>我的消息</p>
-      </div>
-      <div>
-        <span>22</span>
-        <van-icon name="arrow" class="" />
-      </div>
-    </div>
-  </div> -->
 </template>
 
 <style scoped>

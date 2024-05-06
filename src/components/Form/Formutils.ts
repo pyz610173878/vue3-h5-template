@@ -12,7 +12,7 @@ export function HandlerFormData() {
   const fileList = ref([]);
 
   // 表单数据
-  const Data = ref<TaskInfo_Props>();
+  const Data = ref();
   async function UpdataImage(files) {
     let Forms;
     if (fileList.value.length == 1) {
@@ -24,7 +24,7 @@ export function HandlerFormData() {
         Forms.append("files", item.file);
       });
     }
-    let res = "";
+    let res: any = "";
     if (fileList.value.length != 0) {
       res = await uploadFile(Forms);
       const arrs = [];

@@ -5,6 +5,7 @@ type ListResult = {
   message: string;
   list: Array<any>;
   totalCount: number;
+  data: any;
 };
 
 /**
@@ -14,9 +15,8 @@ type ListResult = {
  */
 export function getUserCode(data?: string): Promise<ListResult> {
   return http.request({
-    url: "/hpcc-qms/v1_0/module/qywx/getUserInfo?code=" + data,
-    method: "get",
-    data
+    url: `/hpcc-qms/v1_0/module/qywx/getUserInfo?code=` + data,
+    method: "get"
   });
 }
 

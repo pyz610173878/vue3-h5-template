@@ -1,8 +1,12 @@
 import { pageDefaultTitle } from "@/settings";
 
+/**
+ *
+ * @param routerTitle 设置页面标题
+ */
 export default function setPageTitle(routerTitle?: string): void {
   window.document.title = routerTitle
-    ? `${routerTitle} | ${pageDefaultTitle}`
+    ? `${routerTitle}  ${pageDefaultTitle}`
     : `${pageDefaultTitle}`;
 }
 

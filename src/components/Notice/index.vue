@@ -8,16 +8,16 @@ const props = defineProps<{
 }>();
 </script>
 <template>
-  <div id="app" class="mt-3">
+  <div class="mt-3">
     <div
       :class="{}"
       v-for="(item, index) in props.notice_data"
       :key="index"
-      class="relative h-16 p-4 mt-2 rounded-xl bg-white"
+      class="--Sl-notify-container"
     >
-      <div class="w-12 h-12 sl-positions--absolute">
+      <div class="--SL-notify-type-container --SL-rectangles-rotate">
         <p
-          class="h-9 sl-text--italic text-white"
+          class="--SL-notify-text-rotate"
           :class="item.type === '未读' ? 'bg-gray-300' : 'sl-notice--type-blue'"
         >
           {{ item.type }}
@@ -26,14 +26,8 @@ const props = defineProps<{
 
       <div class="flex items-center sl-notice--title">
         <!-- 默认显示的东西 -->
-        <slot name="icon" :type="item.type">
-          <!-- <p class="inline-block mr-1.5">
-            <svg-icon
-              :name="item.type === '未读' ? 'MynewsOpen' : 'MynewsClose'"
-            />
-          </p> -->
-        </slot>
-        <p class="inline-block text-sm sl-text--black">
+        <slot name="icon" :type="item.type"> </slot>
+        <p class="--SL-notify-text-title --SL-text--black">
           {{ item.title }}
         </p>
       </div>
@@ -43,7 +37,7 @@ const props = defineProps<{
             {{ item.content }}
           </slot>
         </span>
-        <span class="float-right leading-6 sl--text-10">
+        <span class="sl--text-10">
           {{ item.datatime }}
         </span>
       </div>
@@ -58,11 +52,5 @@ const props = defineProps<{
 
 .sl-notice--type-blue {
   background-color: #2d80ee;
-}
-
-.sl-text--title {
-  position: absolute;
-  top: 13px;
-  right: 164px;
 }
 </style>

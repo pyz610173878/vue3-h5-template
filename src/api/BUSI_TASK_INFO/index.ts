@@ -10,10 +10,9 @@ type ListResult = {
   id: string;
 };
 
-export function getPage(params) {
-  const url = `/hpcc-qms/v1_0/module/busi-task-info-v1/page`;
+export function getPage(params?: object) {
   return http.request({
-    url,
+    url: `/hpcc-qms/v1_0/module/busi-task-info-v1/page`,
     method: "get",
     params
   });
@@ -23,8 +22,7 @@ export function getPage(params) {
 export function getProblemDetail(data: string): Promise<ListResult> {
   return http.request({
     url: `/hpcc-qms/v1_0/module/qms-qua-check-issue-v1/detail?id=` + data,
-    method: "get",
-    
+    method: "get"
   });
 }
 
@@ -36,16 +34,6 @@ export const putProblem = data => {
     data
   });
 };
-
-//图片显示
-// export const getImg = params => {
-//   return http.request({
-//     url: `/hpcc-qms/v1_0/module/file-info-v1/imgShow`,
-//     method: "get",
-//     params,
-//     responseType: "blob"
-//   });
-// };
 
 export const getImg = (params?: object) => {
   return http.request({
@@ -73,6 +61,15 @@ export function uploadFile(data?: any) {
     url: `/hpcc-qms/v1_0/module/file-info-v1/commUploadFile`,
     method: "post",
     data
+    // hideLoading: true,
+    // onUploadProgress: uploadProgressEvent
+  });
+}
+
+export function getjsApi(data?: string) {
+  return http.request({
+    url: `/hpcc-tms/v1_0/module/qywx/getJsApiConfigParam?url=` + data,
+    method: "get"
     // hideLoading: true,
     // onUploadProgress: uploadProgressEvent
   });

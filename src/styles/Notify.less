@@ -1,0 +1,37 @@
+.--Sl-notify-container {
+    @apply relative h-16 p-4 mt-2 rounded-xl bg-white;
+}
+
+// 通知类型
+
+.--SL-notify-type-container {
+    @apply w-12 h-12;
+}
+
+// 方块旋转
+
+.--SL-rectangles-rotate {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    clip-path: polygon(18% 0, 63% 0, 100% 46%, 100% 100%);
+}
+
+
+// 字体旋转
+.--SL-notify-text-rotate {
+    width: 65px;
+    text-align: center;
+    font-size: 3.5vw;
+    font-weight: 400;
+    line-height: 8.7vw;
+    transform: rotate(50deg);
+    -webkit-transform: rotate(50deg);
+    @apply h-9 text-white;
+}
+
+// 标题
+
+.--SL-notify-text-title {
+    @apply inline-block text-sm;
+}

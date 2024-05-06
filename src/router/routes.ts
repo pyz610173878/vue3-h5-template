@@ -1,8 +1,6 @@
 import Layout from "@/layout/index.vue";
 import type { RouteRecordRaw } from "vue-router";
 import HomePage from "@/views/HomePage/index.vue";
-import TodoList from "@/components/TodoList/index.vue";
-import Todoview from "@/components/Todoview/index.vue";
 import shenpi from "@/views/shenpi/index.vue";
 import planning from "@/views/QualityControl/planning/index.vue";
 import control from "@/views/control/index.vue";
@@ -12,6 +10,8 @@ import active from "@/views/active/index.vue";
 import equipment from "@/views/equipment/index.vue";
 import approvalList from "@/views/ApprovalList/index.vue";
 import BlankPage from "@/views/BlankPage/index.vue";
+import Approvalform from "@/components/Approvalforms/index.vue";
+
 // 路由配置 name 路径 component 组件 meta 元信息
 const routes: Array<RouteRecordRaw> = [
   {
@@ -19,7 +19,6 @@ const routes: Array<RouteRecordRaw> = [
     name: "root",
     component: Layout,
     redirect: { name: "BlankPage" },
-    props: { name: "HomePage" },
     children: [
       {
         path: "homepage",
@@ -54,14 +53,6 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: "read",
-        name: "Read",
-        component: () => import("@/views/Read/index.vue"),
-        meta: {
-          title: "已阅"
-        }
-      },
-      {
         path: "tools",
         name: "Tools",
         component: () => import("@/views/tools/index.vue"),
@@ -86,32 +77,7 @@ const routes: Array<RouteRecordRaw> = [
         }
       }
     ]
-    // 先不搞,因为如果后面后端返回的路由是动态的,这里就不好处理了
   },
-  // {
-  //   path: "/Todoview",
-  //   name: "Todoview",
-  //   component: Todoview,
-  //   children: [
-  //     // 空的嵌套路由，匹配 '/user/:id'
-  //     {
-  //       path: "active",
-  //       name: "Active",
-  //       component: () => import("@/views/quality/active/index.vue"),
-  //       meta: {
-  //         title: "质量活动"
-  //       }
-  //     },
-  //     {
-  //       path: "check",
-  //       name: "Check",
-  //       component: () => import("@/views/quality/check/index.vue"),
-  //       meta: {
-  //         title: "质量检查"
-  //       }
-  //     }
-  //   ]
-  // }
   // 审批管理
   {
     path: "/shenpi",
@@ -165,6 +131,14 @@ const routes: Array<RouteRecordRaw> = [
     component: check
   },
   {
+    path: "/approvalforms",
+    name: "Approvalforms",
+    component: Approvalform,
+    meta: {
+      title: "审批表单"
+    }
+  },
+  {
     path: "/statistics",
     name: "Statistics",
     component: statistics
@@ -177,32 +151,74 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/approvalList",
     name: "ApprovalList",
-    component: approvalList
+    component: approvalList,
+    meta: {
+      title: "审批管理"
+    }
   },
   {
     path: "/form",
     name: "Form",
-    component: () => import("@/components/Form/index.vue")
+    component: () => import("@/components/Form/index.vue"),
+    meta: {
+      title: "质量检测"
+    }
+  },
+  {
+    path: "/qualitycontrolform",
+    name: "QualityControlForm",
+    component: () => import("@/views/QualityControlForm/index.vue"),
+    meta: {
+      title: "质量控制"
+    }
+  },
+  {
+    path: "/rectificationform",
+    name: "RectificationForm.vue",
+    component: () => import("@/components/Form/RectificationForm.vue"),
+    meta: {
+      title: "质量整改表单"
+    }
+  }, {
+    path: "/processed",
+    name: "Processed",
+    component: () => import("@/views/QualityControlForm/ProcessedForm.vue"),
+    meta: {
+      title: "质量检查已处理表单"
+    }
   },
   {
     path: "/tasklist",
     name: "TaskList",
-    component: () => import("@/views/TaskList/index.vue")
+    //  props: true, // 开启路由参数传参
+    component: () => import("@/views/TaskList/index.vue"),
+    meta: {
+      title: "任务管理"
+    }
   },
   {
     path: "/mynews",
     name: "NyNew",
-    component: () => import("@/views/MyNew/index.vue")
+    component: () => import("@/views/MyNew/index.vue"),
+    meta: {
+      title: "我的消息"
+    }
   },
   {
     path: "/myreminder",
     name: "MyReminder",
-    component: () => import("@/views/MyReminder/index.vue")
+    component: () => import("@/views/MyReminder/index.vue"),
+    meta: {
+      title: "我的提醒"
+    }
   },
   {
     path: "/BlankPage",
     name: "BlankPage",
-    component: () => import("@/views/BlankPage/index.vue")
+    component: () => import("@/views/BlankPage/index.vue"),
+    meta: {
+      title: "空白页"
+    }
   }
 ];
 
